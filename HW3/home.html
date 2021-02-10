@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<HTML>
+    <HEAD>
+    <TITLE>The Solar System</TITLE>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Itim&display=swap" rel="stylesheet">  
+      <STYLE type="text/css">
+        LI {
+            color: black; /* text color is black */
+            float:left;
+            margin: 5px 5px 5px 5px;
+            list-style: none /* no glyphs before a list item */
+             } 
+        UL {
+            background: AntiqueWhite;
+            margin: 0px 0px 0px 0px;
+            float: left;
+            padding: 0px 520px 0px 30px 
+            }
+        a:link {
+            color:#0000FF;
+            text-decoration:none
+            }
+        .parallax {
+            /* The image used */
+            background-image: url("image.jfif");
+
+            /* Set a specific height */
+            height: 400px;
+
+            /* Create the parallax scrolling effect */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 100px 50px 40px 50px;
+            }
+        IMG.left_pic {
+            float: left; 
+            border-style: solid;
+            border-width: 10px; 
+            border-color: lavenderblush;
+        }
+        IMG.right_pic {
+            float: right; 
+            border-style: solid;
+            border-width: 10px; 
+            border-color: lightcyan;
+        }
+      </STYLE> 
+    </HEAD>
+    <BODY style="width: 1000px;">
+        <H1 style="font-family: 'Abril Fatface', cursive;font-size: 20pt; color: Navy; padding-left: 400px;">Trojan Cafe</H1>
+        <div>
+            <ul>
+                <li><a href="home.html" style="text-decoration:none">Home</a></li>
+                <li><a href="#Italian">Italian</a></li>
+                <li><a href="#Indian">Indian</a></li>
+                <li><a href="#Japanese" >Japanese</a></li>
+                <li><a href="#Dessert" >Dessert</a></li>
+                <li><a href="index.html">About</a></li>
+                <li><a href="index.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="parallax"></div>
+        <!-- <IMG SRC="image.jfif" ALT="resturant" BORDER=0 WIDTH=900 HEIGHT=400 style="margin: 40px 50px 40px 50px;"></IMG> -->
+        <div>
+        <span style="font-family: 'Comic Sans MS', cursive;font-size: 25px; border-bottom: double #993399; color: #993399; margin-left: 300px;">Explore Our Delicious Cuisines</span>
+        </div>
+        <div id="Italian">
+            <div style="margin: 50px;display: inline-block;vertical-align: middle;"> 
+                <IMG SRC="italiancuisine.jpg" ALT="italiancuisine" WIDTH=400 HEIGHT=200 class="left_pic"></IMG>
+            </div>
+            <div style="display: inline-block;margin-left: 50px; width: 400px;">            
+                <p style="color:#0000FF; font-weight:bold;">Italy's finest:</p>
+                <p>From our Lasagna to out Protein Penne, we have delicious options for every taste!</p>
+            </div>
+        </div>
+        <div id="Indian">
+            <div style="margin: 45px;width: 400px;display: inline-block">
+                <p style="color:#0000FF; font-weight:bold;">India's Flavors:</p>
+                <p>Our dishes are blended with masterful savory spices</p>
+            </div>
+            <div style="margin-left: 50px;display: inline-block;vertical-align: middle;"> 
+                <IMG SRC="india.jpg" ALT="indiacuisine" WIDTH=400 HEIGHT=200 class="right_pic"></IMG>
+            </div>
+        </div>
+        <div id="Japanese">
+            <div style="margin: 50px;display: inline-block;vertical-align: middle;"> 
+                <IMG SRC="japanese.jpg" ALT="Japanesecuisine" WIDTH=400 HEIGHT=200 class="left_pic"></IMG>
+            </div>
+            <div style="display: inline-block;margin-left: 50px; width: 400px;">            
+                <p style="color:#0000FF; font-weight:bold;">Japanese Cuisine:</p>
+                <p>Delicious dining from Sake to Sushi</p>
+            </div>
+        </div>
+        <div id="Dessert">
+            <div style="margin: 45px;width: 400px;display: inline-block">
+                <p style="color:#0000FF; font-weight:bold;">Desserts:</p>
+                <p>From Italian Tiramisu to Indian Gulab Jamun</p>
+            </div>
+            <div style="margin-left: 50px;display: inline-block;vertical-align: middle;"> 
+                <IMG SRC="dessert.jpg" ALT="indiacuisine" WIDTH=400 HEIGHT=200 class="right_pic"></IMG>
+            </div>
+        </div>
+    </BODY>
+    </HTML>
