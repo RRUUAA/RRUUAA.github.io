@@ -20,7 +20,7 @@ a:link {
     background-attachment: fixed;
     background-position:0px;
     background-repeat: no-repeat;
-    /* background-size: cover; */
+    background-size: cover;
     margin: 100px 50px 40px 50px;
 }
 BUTTON {
