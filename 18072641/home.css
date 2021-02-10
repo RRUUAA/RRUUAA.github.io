@@ -1,0 +1,93 @@
+LI {
+    color: black; /* text color is black */
+    float:left;
+    margin: 5px 5px 5px 5px;
+    list-style: none /* no glyphs before a list item */
+} 
+UL {
+    background: AntiqueWhite;
+    margin: 0px 0px 0px 0px;
+    float: left;
+    padding: 10px 470px 10px 30px 
+}
+a:link {
+    color:#0000FF;
+    text-decoration:none
+}
+.parallax {
+    background-image: url("image.jfif");
+    height: 400px;
+    background-attachment: fixed;
+    background-position:0px;
+    background-repeat: no-repeat;
+    /* background-size: cover; */
+    margin: 100px 50px 40px 50px;
+}
+BUTTON {
+    width: 170px;
+    height: 35px;
+    border: 3px;
+    border-color: black;
+    border-style: double;
+    background-color: white;
+    margin: 250px 100px 20px 500px
+}
+IMG.left_pic {
+    float: left; 
+    margin-top: 50px;
+    margin-left: 50px;
+    border-style: solid;
+    border-width: 10px; 
+    border-color: lavenderblush;
+    width: 380px;
+    height: 350px;
+}
+IMG.right_pic {
+    float: right; 
+    margin-top: 50px;
+    margin-left: 100px;
+    border-style: solid;
+    border-width: 10px; 
+    border-color: lightcyan;
+    width: 380px;
+    height: 350px;
+}
+
+H1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 25pt; 
+    color: Navy; 
+    padding-left: 370px;
+}
+
+SPAN {
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 25px; 
+    border-bottom: double #993399; 
+    color: #993399; 
+    margin-left: 300px;
+    font-weight:bold;
+}
+
+P {
+    margin: 0px;
+}
+P.commentLine {
+    width: 1000px;
+    position:absolute;
+    font-size: 35px;
+    color:beige; 
+    font-family: 'Libre Baskerville', serif;
+    margin: 150px 100px 20px 220px
+}
+
+P.subtitle {
+    color:#0000FF; 
+    font-weight:bold;
+    margin: 0px;
+}
+
+div.picture {
+    display: inline-block;
+    vertical-align: middle;
+}
