@@ -1,0 +1,782 @@
+<!DOCTYPE HTML>
+<HTML>
+    <HEAD>
+        <link href="static/css/home.css" rel="stylesheet" />
+        <style>
+            .fade {
+                -webkit-animation-name: fade;
+                -webkit-animation-duration: 1.5s;
+                animation-name: fade;
+                animation-duration: 1.5s;
+                }
+
+                @-webkit-keyframes fade {
+                from {opacity: .4} 
+                to {opacity: 1}
+                }
+
+                @keyframes fade {
+                from {opacity: .4} 
+                to {opacity: 1}
+                }
+            .detail_bg {
+                display: none;
+                position: absolute;
+                top: 0%;
+                left: 0%;
+                width: 100%;
+                height: 100%;
+                background-color: black;
+                z-index: 1001;
+                -moz-opacity: 0.8;
+                opacity: .80;
+                filter: alpha(opacity=80);
+            }
+            .detail_block {
+                display: none;
+                position: absolute;
+                top: 200px;
+                left: 20%;
+                width: 880px;
+                height: auto;
+                background-color: #A9A9A9;
+                z-index: 1002;
+                overflow: auto;
+            }
+
+            .detail {
+                margin-bottom: 5px;
+            }
+            
+            .detail_pic {
+                margin-left: 40px;
+                margin-top: 20px;
+            }
+
+            .detail_text {
+                margin-left: 40px;
+                margin-top: 20px;
+                margin-right: 55px;
+            }
+
+            .credit {
+                margin-left: 40px;
+                margin-top: 20px;
+                width: 780px;
+                height: auto;
+                margin-right: 55px;
+                clear: both;
+            }
+
+            .review {
+                margin-left: 40px;
+                margin-top: 20px;
+                margin-right: 70px;
+                clear: both;
+            }
+
+            #header,#centers,#footer{
+                width:100%;
+                clear:both;
+                font-size:18px;
+                background-color: black;
+            }  
+
+            .block{
+                border-left: 8px solid rgb(197, 9, 9);
+                height: 350px;
+                width: 1000px;
+                background-color: black;
+                margin-bottom: 20px;
+                display: none;
+            }
+            .pic_block{
+                width: 200px;
+                height: 300px;
+                float: left;
+                margin-top: 20px;
+            }
+            .text_block{
+                float: left;
+                margin-left: 20px;
+                margin-top: 20px;
+                height: 280px;
+                width: 760px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+            }
+            .content{
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                font-size: 2px;
+                }
+                
+        </style>
+    </HEAD>
+    <body>
+        <div id="header">
+            <p id="h_text">THE MOVIE DB</p>
+        </div> 
+
+        <div id="centers" style=" display: flex;"> 
+
+            <div id="c_left" style="width: 300px; background-color:black;">
+                <div style="margin-left: 120px;">
+                    <button onclick="change_page('home')" style="cursor: pointer; border: none; margin: 10px; width: 100px; background-color: black; color: red; text-align: right;">Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8594;&nbsp;</button>
+                    <button onclick="change_page('search')" style="cursor: pointer; border: none; margin: 10px;width: 100px; background-color: black; color: red; text-align: right;">Search&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8594;&nbsp;</button>
+                    <hr style="height:1px;border:none;border-top:1px solid white;" />
+                </div>
+            </div> 
+
+            <div id="c_right" style="background-color: black;width: 1000px;">
+                <div id='home'>
+                    <div id="trending_block" style="margin-left: 200px;">
+                        <H3 style="color: white; text-align: center;">Trending Movies</H3>
+                    </div>
+                    <div id="airing_block" style="margin-left: 200px;">
+                        <H3 style="color: white; text-align: center;">TV Shows On-Air Tod</H3>
+                    </div>
+                </div>
+                <div id='search' style="display: none;">
+                    <div style="background: linear-gradient(rgb(197, 9, 9) 0%, black 100%); height: 250px;">
+                        <div style="color: white;text-align: center;font-size: 20px;font-weight: bold;height: 60px;line-height: 60px;">
+                            Search
+                            <p></p>
+                        </div>
+                        <iframe name="hiddenframe" style="display: none;"></iframe>
+                        <form action="http://127.0.0.1:5000/search" target="hiddenframe">
+                            <span style="color: white; margin-left: 250px;">Keyword</span>
+                            <span style="color: red;">*</span>
+                            <input id="queryer",type="text" size="50px"><p></p>
+
+                            <span style="color: white; margin-left: 250px;">Category</span>
+                            <span style="color: red;">*</span>
+                            <select name="" id="selector" size="1">
+                                <option id="default" selected='true'></option>
+                                <option id="movies">Movies</option>
+                                <option id="tv">TV Shows</option>
+                                <option id="multi">Movies and TV Shows</option>
+                            </select><p></p>
+                            <button onclick="send_request()" style="cursor: pointer;background-color: black;color: white;margin-left: 400px; border: none;width: 70px;height: 30px;">Search</button>
+                            <button onclick="Clear()" style="cursor: pointer;background-color: black;color: white;margin-left: 50px; border: none;width: 70px;height: 30px;">Clear</button>
+                        </form>
+                    </div>
+                    <div id='search_result'>
+                        <p id='infoline' style="color: white;display: none;">Showing result...</p>
+                        <div id="block0" class="block">
+                            <div id='pic_block0' class="pic_block"></div>
+                            <div id='text_block0' class="text_block"></div>
+                            <div id='detail_bg0' class="detail_bg"></div>
+                            <div id='detail_block0' class="detail_block">
+                                <div id='detail0' class="detail">
+                                    <div id='detail_pic0' class="detail_pic"></div>
+                                    <div id='detail_text0' class="detail_text"></div>
+                                </div>
+                                <div id='credit0' class="credit"></div>
+                                <div id='review0' class="review" style="margin-bottom: 30px;"></div>
+                            </div>
+                        </div>
+                        <div id="block1" class="block">
+                            <div id='pic_block1' class="pic_block"></div>
+                            <div id='text_block1' class="text_block"></div>
+                            <div id='detail_bg1' class="detail_bg"></div>
+                            <div id='detail_block1' class="detail_block" style="top: 550px;">
+                                <div id='detail1' class="detail">
+                                    <div id='detail_pic1' class="detail_pic"></div>
+                                    <div id='detail_text1' class="detail_text"></div>
+                                </div>
+                                <div id='credit1' class="credit"></div>
+                                <div id='review1' class="review" style="margin-bottom: 30px;"></div>
+                            </div>
+                        </div>
+                        <div id="block2" class="block">
+                            <div id='pic_block2' class="pic_block"></div>
+                            <div id='text_block2' class="text_block"></div>
+                            <div id='detail_bg2' class="detail_bg"></div>
+                            <div id='detail_block2' class="detail_block" style="top: 900px;">
+                                <div id='detail2' class="detail">
+                                    <div id='detail_pic2' class="detail_pic"></div>
+                                    <div id='detail_text2' class="detail_text"></div>
+                                </div>
+                                <div id='credit2' class="credit"></div>
+                                <div id='review2' class="review" style="margin-bottom: 30px;"></div>
+                            </div>
+                        </div>
+                        <div id="block3" class="block">
+                            <div id='pic_block3' class="pic_block"></div>
+                            <div id='text_block3' class="text_block"></div>
+                            <div id='detail_bg3' class="detail_bg"></div>
+                            <div id='detail_block3' class="detail_block" style="top: 1250px;">
+                                <div id='detail3' class="detail">
+                                    <div id='detail_pic3' class="detail_pic"></div>
+                                    <div id='detail_text3' class="detail_text"></div>
+                                </div>
+                                <div id='credit3' class="credit"></div>
+                                <div id='review3' class="review" style="margin-bottom: 30px;"></div>
+                            </div>
+                        </div>
+                        <div id="block4" class="block">
+                            <div id='pic_block4' class="pic_block"></div>
+                            <div id='text_block4' class="text_block"></div>
+                            <div id='detail_bg4' class="detail_bg"></div>
+                            <div id='detail_block4' class="detail_block" style="top: 1600px;">
+                                <div id='detail4' class="detail">
+                                    <div id='detail_pic4' class="detail_pic"></div>
+                                    <div id='detail_text4' class="detail_text"></div>
+                                </div>
+                                <div id='credit4' class="credit"></div>
+                                <div id='review4' class="review" style="margin-bottom: 40px;"></div>
+                            </div>
+                        </div>
+                        <div id="block5" class="block">
+                            <div id='pic_block5' class="pic_block"></div>
+                            <div id='text_block5' class="text_block"></div>
+                            <div id='detail_bg5' class="detail_bg"></div>
+                            <div id='detail_block5' class="detail_block" style="top: 1950px;">
+                                <div id='detail5' class="detail">
+                                    <div id='detail_pic5' class="detail_pic"></div>
+                                    <div id='detail_text5' class="detail_text"></div>
+                                </div>
+                                <div id='credit5' class="credit"></div>
+                                <div id='review5' class="review" style="margin-bottom: 50px;"></div>
+                            </div>
+                        </div>
+                        <div id="block6" class="block">
+                            <div id='pic_block6' class="pic_block"></div>
+                            <div id='text_block6' class="text_block"></div>
+                            <div id='detail_bg6' class="detail_bg"></div>
+                            <div id='detail_block6' class="detail_block" style="top: 2300px;">
+                                <div id='detail6' class="detail">
+                                    <div id='detail_pic6' class="detail_pic"></div>
+                                    <div id='detail_text6' class="detail_text"></div>
+                                </div>
+                                <div id='credit6' class="credit"></div>
+                                <div id='review6' class="review" style="margin-bottom: 60px;"></div>
+                            </div>
+                        </div>
+                        <div id="block7" class="block">
+                            <div id='pic_block7' class="pic_block"></div>
+                            <div id='text_block7' class="text_block"></div>
+                            <div id='detail_bg7' class="detail_bg"></div>
+                            <div id='detail_block7' class="detail_block" style="top: 2650px;">
+                                <div id='detail7' class="detail">
+                                    <div id='detail_pic7' class="detail_pic"></div>
+                                    <div id='detail_text7' class="detail_text"></div>
+                                </div>
+                                <div id='credit7' class="credit"></div>
+                                <div id='review7' class="review" style="margin-bottom: 70px;"></div>
+                            </div>
+                        </div>
+                        <div id="block8" class="block">
+                            <div id='pic_block8' class="pic_block"></div>
+                            <div id='text_block8' class="text_block"></div>
+                            <div id='detail_bg8' class="detail_bg"></div>
+                            <div id='detail_block8' class="detail_block" style="top: 3000px;">
+                                <div id='detail8' class="detail">
+                                    <div id='detail_pic8' class="detail_pic"></div>
+                                    <div id='detail_text8' class="detail_text"></div>
+                                </div>
+                                <div id='credit8' class="credit"></div>
+                                <div id='review8' class="review" style="margin-bottom: 80px;"></div>
+                            </div>
+                        </div>
+                        <div id="block9" class="block">
+                            <div id='pic_block9' class="pic_block"></div>
+                            <div id='text_block9' class="text_block"></div>
+                            <div id='detail_bg9' class="detail_bg"></div>
+                            <div id='detail_block9' class="detail_block">
+                                <div id='detail9' class="detail">
+                                    <div id='detail_pic9' class="detail_pic" style="top: 3200px;"></div>
+                                    <div id='detail_text9' class="detail_text"></div>
+                                </div>
+                                <div id='credit9' class="credit"></div>
+                                <div id='review9' class="review" style="margin-bottom: 90px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="footer" style="background-color: #8B0000; height: 50px;position:static;width: 1000px;">
+                    <div style="font-style: italic; font-size: 2px; text-align:right; position: relative; right: 10px;top: 10px;;">
+                        <span style="color: white;">Designed and developed by Daoyuan Li</span><p></p>
+                        <span style="color: white;">Powered by TMDB</span>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </body>
+
+    <script>
+    function tutor(url) {
+        window.open(String(url));
+    }
+    function change_page(page_name){
+        
+        var home = document.getElementById('home');
+        var search = document.getElementById('search');
+        if(page_name=='home'){
+            search.style.display = 'none';
+            home.style.display = 'block';
+        }
+        else{
+            search.style.display = 'block';
+            home.style.display = 'none';
+        }
+    }
+    (function get_home(){
+        (function add_trending(){
+            var lnkx = "http://127.0.0.1:5000/trending";
+            async function fetch_t() {
+                const response = await fetch(lnkx, {
+                method:'GET',
+                mode:'cors',
+                //responseType:'json',
+                });
+                let d = await response.text();
+                return d;
+            }
+            fetch_t().then(d=>add_homeslide(d, 'trending_block'));
+        })();
+
+        (function add_airing(d) {
+            var lnkx = "http://127.0.0.1:5000/airing_today";
+            async function fetch_a() {
+                const response = await fetch(lnkx, {
+                method:'GET',
+                mode:'cors',
+                //responseType:'json',
+                });
+                let d = await response.text();
+                return d;
+            }
+            fetch_a().then(d=>add_homeslide(d, 'airing_block'));
+            dy_slide();
+        })();
+
+        function add_homeslide(d, id) {
+            var obj = JSON.parse(d);
+            var block = document.getElementById(id);
+            for(i = 0;i < obj.results.length; i++){
+                create_slide(i,obj,block);
+            }
+            function create_slide(i, obj, container){
+                var mySlides = document.createElement("div");
+                mySlides.className='mySlides fade';
+                mySlides.style.display='none';
+
+                var img = document.createElement("img");
+                console.log(typeof(obj.results[i].backdrop_path))
+                if (typeof(obj.results[i].backdrop_path) == 'undefined'){
+                    var pic_path = 'static/movie-placeholder.jpg';
+                }
+                else{
+                    var pic_path = "https://image.tmdb.org/t/p/w500/" + obj.results[i].backdrop_path;
+                }
+                img.setAttribute('SRC',pic_path);
+                img.style.width = "780px"
+
+                var textdiv = document.createElement("div");
+                textdiv.className='textdiv';
+
+                var text = document.createElement("span");
+                text.innerHTML = obj.results[i].title + "(" + obj.results[i].release_date.substring(0,4) + ")";
+                text.style.color = "white";
+                text.style.lineHeight = "100px";
+
+                textdiv.style.bottom = "100px";
+                textdiv.style.position="relative";
+                textdiv.style.backgroundColor = "black";
+                textdiv.style.opacity = '0.6'
+                textdiv.appendChild(text);
+
+                mySlides.appendChild(img);
+                mySlides.appendChild(textdiv);
+                container.appendChild(mySlides);
+            }
+        }
+        function dy_slide(){
+                var slideIndex = 1;
+                var slideIndex2 = 6;
+                showSlides();
+                slideIndex++;
+                slideIndex2++;
+                intervalId = setInterval(showSlides,5000);
+                function showSlides() {
+                var i;
+                var slides = document.getElementsByClassName("mySlides");
+                if(slides.length > 5){
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";  
+                    }
+                    if(slideIndex < 0) { slideIndex = 1;slideIndex2 = 6}
+                    if(slideIndex > 5) { slideIndex = 1;slideIndex2 = 6}
+                    slides[slideIndex-1].style.display = "block";
+                    slides[slideIndex2-1].style.display = "block";
+                    slideIndex++;
+                    slideIndex2++;
+                }
+                else{
+                    console.log("234");
+                }
+            }
+        }
+    })();
+
+    function send_request(){
+        inputtext = document.getElementById('queryer').value;
+        inputcategory = document.getElementById('selector').value;
+        console.log("THis is inputcategory" + inputcategory + "123");
+        console.log("THis is inputcategory",typeof(inputcategory));
+        if(inputtext==''||inputcategory==''){
+            window.alert("Please enter valid values");
+            return;
+        }
+        infoline  = document.getElementById('infoline');
+        infoline.style.display='block';
+        (function clearall() {
+            for(var i = 0; i < 10; i++){
+                console.log("clearing")
+                num = String(i);
+                pic_block = document.getElementById('pic_block' + num);
+                console.log("This is pic_block",pic_block)
+                pic_block.innerHTML = '';
+                text_block = document.getElementById('text_block' + num);
+                text_block.innerHTML = '';
+                text_block = document.getElementById('text_block' + num);
+                detail_pic = document.getElementById('detail_pic' + num);
+                detail_pic.innerHTML = '';
+
+                detail_text = document.getElementById('detail_text' + num);
+                detail_text.innerHTML = '';
+
+                credit = document.getElementById('credit' + num);
+                credit.innerHTML = '';
+
+                review = document.getElementById('review' + num);
+                review.innerHTML = '';
+            }
+        })();
+
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('name','hiddenFrame');
+        iframe.style.display="none";
+        search_block = document.getElementById('search');
+        search_block.appendChild(iframe);
+        select = document.getElementById('selector');
+        query = document.getElementById('queryer');
+        var index = select.selectedIndex;
+        var cate_text = select.options[index].text;
+        console.log(cate_text);
+        var query_text = query.value;
+        console.log(query_text);
+        
+        if (window.XMLHttpRequest){// code for all new browsers
+            xmlhttp=new XMLHttpRequest();
+        }
+        else if (window.ActiveXObject){// code for IE5 and IE6
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if (xmlhttp!=null){
+            url = 'http://127.0.0.1:5000/search?Keyword=' + query_text + '&Category=' + cate_text;
+            xmlhttp.open("get",url,true);
+            xmlhttp.send(null);
+            console.log("one time");
+            xmlhttp.onload = function() {/*设置当获XHR对象获取到返回信息后执行以下代码*/
+                if(xmlhttp.status == 200) {/*如果返回的状态为200，即为成功获取数据*/
+                    result = xmlhttp.responseText;
+                    show_results(xmlhttp.responseText);
+                }
+            }
+        }
+        function show_results(response){
+            console.log("in show_results");
+            var obj = JSON.parse(response);
+            console.log(obj);
+            for(var i=0;i<obj.results.length;i++){
+                var num = String(i)
+                var id=obj.results[i].id;
+                var title=obj.results[i].title;
+                var overview=obj.results[i].overview;
+                var poster_path=obj.results[i].poster_path;
+                var release_date=obj.results[i].release_date;
+                var vote_average=obj.results[i].vote_average;
+                var vote_count=obj.results[i].vote_count;
+                var genre_ids=obj.results[i].genre_ids;
+                var runtime = obj.results[i].runtime;
+                var backdrop_path = obj.results[i].backdrop_path;
+                var spoken_languages = obj.results[i].spoken_languages;
+                var category = obj.results[i].type;
+                var castList = [];
+
+                thisblock = document.getElementById('block' + num)
+                thisblock.style.display = 'block'
+                if(obj.results[i].cast){
+                    castList = obj.results[i].cast;
+                }
+                var reviewList = [];
+                if (obj.results[i].review){
+                    reviewList = obj.results[i].review;
+                }
+                var url = obj.results[i].url;
+
+                var detail_block = document.getElementById('detail_block' + num);
+
+                var detail = document.getElementById('detail' + num);
+                var detail_pic = document.getElementById('detail_pic' + num);
+                var detail_text = document.getElementById('detail_text' + num);
+
+                console.log("This is detail img path" + backdrop_path);
+                if (typeof(backdrop_path) != 'undefined' && backdrop_path){
+                    path = "https://image.tmdb.org/t/p/w500/" + backdrop_path;
+                }
+                else{
+                    path = "/static/movie-placeholder.jpg";
+                }
+                dimg = document.createElement('img');
+                dimg.setAttribute('SRC',path);
+                    dimg.style.width = "770px"
+                    dimg.style.float = 'left'
+                    detail_pic.appendChild(dimg);
+                closeButtion = document.createElement('button')
+                closeButtion.setAttribute('onClick','CloseDiv(' + num + ')');
+                closeButtion.style.color='black';
+                closeButtion.style.marginTop = "30px";
+                closeButtion.style.cursor = 'pointer';
+                closeButtion.style.backgroundColor = '#A9A9A9';
+                closeButtion.style.border = 'none';
+                closeButtion.style.marginRight = '20px';
+                // closeButtion.style.marginLeft='820px'
+                closeButtion.innerHTML='&times;'
+                closeButtion.style.float = 'right'
+                detail_pic.appendChild(closeButtion);
+
+                titleline = document.createElement('p')
+                dt1 = document.createElement('span');
+                dt1.innerHTML = title;
+                dt1.style.fontSize = '20px';
+                dt1.style.lineHeight = '40px';
+                dt1.style.clear='both';
+                titleline.appendChild(dt1);
+
+                tutorbuton = document.createElement('button');
+                console.log('onClick','tutor(' + url + ')');
+                tutorbuton.setAttribute('onClick','tutor(' +'\'' +url+'\'' + ')');
+                tutorbuton.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;ⓘ';
+                tutorbuton.style.color = 'red';
+                tutorbuton.style.backgroundColor = '#A9A9A9';
+                tutorbuton.style.cursor = 'pointer';
+                tutorbuton.style.border = 'none';
+                titleline.appendChild(tutorbuton);
+                detail_text.appendChild(titleline);
+                
+                if (release_date!='' || typeof(genre_id) != 'undefined'){
+                    dt2 = document.createElement('p');
+                    dt2.innerHTML = release_date.substring(0,4) + ' | ' + genre_ids;
+                    detail_text.appendChild(dt2);
+                }
+
+                thirdline = document.createElement('p')
+                dt3 = document.createElement('span');
+                dt3.innerHTML = '&#9733;' + ' ' + String(vote_average) + ' / 5 ';
+                dt3.style.color = 'red';
+                dt3.style.fontSize = '2px';
+
+
+                dt4 = document.createElement('span');
+                dt4.innerHTML = vote_count + '&nbsp;' +'votes';
+                dt4.style.fontSize = '2px';
+                thirdline.appendChild(dt3);
+                thirdline.appendChild(dt4);
+                detail_text.appendChild(thirdline);
+
+
+                dt5 = document.createElement('span');
+                dt5.innerHTML = overview;
+                detail_text.appendChild(dt5);
+
+                dt6 = document.createElement('p');
+                dt6.innerHTML = spoken_languages;
+                detail_text.appendChild(dt5);
+
+                credit = document.getElementById('credit' + num)
+                castLine = document.createElement('p');
+                castLine.style.lineHeight='20px';
+                castLine.style.fontWeight='bold';
+                castLine.innerHTML =  'Cast';
+                credit.appendChild(castLine);
+                console.log("This is castList: ", castList);
+                for(var c = 0; c < castList.length;c++){
+                    subblock = document.createElement('div');
+                    subblock.style.float = 'left';
+                    subblock.style.marginRight = '20px';
+
+                    img = document.createElement('img');
+                    console.log("This is profile_path",castList[c].profile_path)
+                    if(castList[c].profile_path){
+                        path = "https://image.tmdb.org/t/p/w500/" + castList[c].profile_path;
+                    }
+                    else {
+                        path = '/static/person-placeholder.png'
+                    }
+                    // console("This is castpath");
+                    img.setAttribute('SRC',path);
+                    img.style.width = "175px"
+                    subblock.appendChild(img);
+
+                    thisname = document.createElement('p');
+                    thisname.innerHTML =  castList[c].name;
+                    thisname.style.textAlign = 'center';
+                    thisname.style.fontSize = "10px"
+                    thisname.style.fontWeight = "bold"
+                    subblock.appendChild(thisname);
+
+                    asline = document.createElement('p');
+                    asline.innerHTML =  'AS';
+                    asline.style.textAlign = 'center';
+                    asline.style.fontSize = "10px"
+                    subblock.appendChild(asline);
+
+                    character = document.createElement('p');
+                    character.innerHTML =  castList[c].character;
+                    character.style.fontSize = "10px"
+                    character.style.textAlign = 'center';
+                    subblock.appendChild(character);
+
+                    credit.appendChild(subblock);
+                }
+
+                review = document.getElementById('review' + num)
+                reviewLine = document.createElement('p');
+                reviewLine.innerHTML =  'Reviews';
+                reviewLine.style.fontWeight =  'bold';
+                reviewLine.style.fontSize =  '20px';
+                review.appendChild(reviewLine);
+                for(var r = 0; r < reviewList.length;r++){
+                    subblock = document.createElement('div');
+                    
+                    firstline = document.createElement('p');
+                    author_details = reviewList[r].author_details;
+                    console.log(author_details);
+                    author = document.createElement('span');
+                    author.style.fontWeight =  'bold';
+                    author.style.fontSize = '10px'
+                    author.innerHTML = author_details.name;
+                    firstline.appendChild(author);
+
+                    created_at = document.createElement('span');
+                    date = reviewList[r].created_at; 
+                    created_at.innerHTML = ' on ' + date.month + '/' + date.day + '/' + date.year;
+                    created_at.style.fontSize = '2px'
+                    firstline.appendChild(created_at);
+                    subblock.appendChild(firstline);
+
+                    rating = document.createElement('p');
+                    rating.style.fontSize = '2px'
+                    rating.style.color = 'red'
+                    rating.innerHTML = '&#9733; ' + String(author_details.rating) + ' / 5';
+                    subblock.appendChild(rating);
+
+                    content = document.createElement('span');
+                    content.innerHTML = reviewList[r].content;
+                    content.setAttribute('class','content');
+                    subblock.appendChild(content);
+                    
+                    subline = document.createElement('div');
+                    subline.style.border = '1px';
+                    subline.style.solid = '#CCC';
+
+                    review.appendChild(subblock);
+                    review.appendChild(subline);
+                }
+
+                
+                block = document.getElementById('block' + num);
+                pic_block = document.getElementById('pic_block' + num);
+                text_block = document.getElementById('text_block' + num);
+
+                t1 = document.createElement('H4');
+                t1.innerHTML = title;
+                t1.style.color = 'white';
+                text_block.appendChild(t1);
+                text_block.appendChild(document.createElement('p'));
+                
+                t2 = document.createElement('span');
+                t2.innerHTML = release_date.substring(0,4) + '|' + genre_ids;
+                t2.style.color = 'white';
+                text_block.appendChild(t2);
+                text_block.appendChild(document.createElement('p'));
+
+                t3 = document.createElement('span');
+                console.log("vote_average",vote_average)
+                t3.innerHTML = '&#9733;' + ' ' + String(vote_average) + ' / 5 ';
+                t3.style.color = 'red';
+                t3.style.fontSize = '2px';
+                text_block.appendChild(t3);
+                
+                t4 = document.createElement('span');
+                t4.innerHTML = vote_count + 'votes';
+                t4.style.color = 'white';
+                t4.style.fontSize = '2px';
+                text_block.appendChild(t4);
+                text_block.appendChild(document.createElement('p'));
+
+                t5 = document.createElement('span');
+                t5.innerHTML = overview;
+                t5.style.color = 'white';
+                t5.style.fontSize = '2px';
+                t5.style.height = '65px';
+                t5.style.display = "block";
+                text_block.appendChild(t5);
+                text_block.appendChild(document.createElement('p'));
+
+                show_more = document.createElement('button');
+                show_more.innerHTML = 'Show More';
+                show_more.setAttribute('onclick', 'ShowDiv(' + num + ')');
+                show_more.style.color = 'white';
+                show_more.style.height = '30px';
+                show_more.style.border = 'none';
+                show_more.style.backgroundColor = 'red';
+                show_more.style.cursor = 'pointer';
+                text_block.appendChild(show_more);
+
+                var img = document.createElement("img");
+                if(String(poster_path)!='null'){
+                    pic_path = "https://image.tmdb.org/t/p/w500/" + poster_path;
+                }
+                else{
+                    pic_path = '/static/movie_placeholder.png'
+                }
+                img.setAttribute('SRC',pic_path);
+                img.style.width = "200px";
+                img.style.height = "300px";
+                pic_block.appendChild(img);
+
+            }
+        }
+    }
+
+    function ShowDiv(i) { 
+        console.log('ShowDiv' + i);
+        document.getElementById('detail_block' + i).style.display = 'block'; 
+        var bgdiv = document.getElementById('detail_bg' + i);
+        bgdiv.style.display = 'block'
+        bgdiv.style.width = document.body.scrollWidth;  // bgdiv.style.height = $(document).height();
+        bgdiv.style.height = document.body.height;
+    }
+            //关闭弹出层
+    function CloseDiv(i) { 
+        console.log('CloseDiv'+i);
+        document.getElementById('detail_block' + i).style.display = 'none'; 
+        document.getElementById('detail_bg' + i).style.display = 'none';
+    }
+
+    function Clear(){
+        document.getElementById('queryer').value='';
+        document.getElementById('selector').value='';
+    }
+    </script>
+</HTML>
